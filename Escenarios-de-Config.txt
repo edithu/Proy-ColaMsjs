@@ -1,0 +1,6 @@
+Lenguaje utilizado: Python 2.7
+
+Antiguo escenario: Windows 7 (64-bit) como anfitrión y Ubuntu 15.10 
+                   como MV en VirtualBox con Python, GitHub y RabbitMQ para Linux
+
+Nuevo escenario (desde 0): Windows XP (32-bit), Python, GitHub y RabbitMQ para Windows. 
