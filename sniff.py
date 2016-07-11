@@ -1,28 +1,33 @@
-#import socket
+#import socket, sys
 import os
-import socket, sys
-from struct import *
+import socket
+#from struct import *
 
 # host to listen on
 host = '172.17.182.223'
 print "Sistema Operativo: " + os.name
-socket_protocol = socket.IPPROTO_ICMP
-#create an INET, RAW socket of ICMP
-try:
-	sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
-	sniffer.bind((host, 0))
-except socket.error , msg:
-    print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-    sys.exit()
 
-# we want the IP headers included in the capture
+#create an new raw socket and bind it to the NIC
+if os.name == "nt":
+	socket_protocol = socket.IPPROTO_IP
+else:
+	socket_protocol = socket.IPPROTO_ICMP
+
+sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
+sniffer.bind((host, 0))
+
+# Include the IP headers be included in the capture
 sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
-# if we are using Windows, we need to send an IOCTL
+# As Windows is being used, it is needed to send an IOCTL
 # to set up promiscuous mode
 if os.name == "nt":
 	sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)
-## read in a single packet
-#print sniffer.recvfrom(65565)
+	print "modo promiscuo activado"
+
+# read in a single packet
+print sniffer.recvfrom(65565)
+print "1era parte ready"
+
 
 # PARSING THE SNIFFED PACKET
 #Sniffs only incoming TCP packet
