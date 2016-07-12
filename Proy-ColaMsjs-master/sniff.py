@@ -1,7 +1,3 @@
-__doc__ =""" 
-La intencion con este codigo es capturar paquetes ICMP, lo cual ocurre, sin embargo,
-no realiza el parsing
-"""
 #import socket, sys
 import os
 import socket
